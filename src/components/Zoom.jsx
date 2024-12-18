@@ -1,15 +1,18 @@
 "use client";
 
+import { setSheetZoom } from "@/store/features/profilePicture";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Zoom({ setDivisors }) {
-    const [valueInput, setValueInput] = useState(100);
+    const dispatch = useDispatch();
+    const { sheetZoom } = useSelector((state) => state.profilePictureFeature);
 
     const handleChange = (e) => {
-        if (e.target.value < 20) return setValueInput(20);
-        if (e.target.value > 200) return setValueInput(200);
+        if (e.target.value < 20) return dispatch(setSheetZoom(20));
+        if (e.target.value > 200) return dispatch(setSheetZoom(200));
 
-        setValueInput(Number(e.target.value));
+        dispatch(setSheetZoom(Number(e.target.value)));
         setDivisors(e.target.value / 100);
     };
 
@@ -17,11 +20,11 @@ export default function Zoom({ setDivisors }) {
         if (e.ctrlKey) {
             e.preventDefault(); // Empêche le zoom par défaut du navigateur
 
-            let newValue = valueInput + (e.deltaY > 0 ? -5 : 5);
+            let newValue = sheetZoom + (e.deltaY > 0 ? -5 : 5);
             if (newValue < 20) newValue = 20;
             if (newValue > 200) newValue = 200;
 
-            setValueInput(newValue);
+            dispatch(setSheetZoom(newValue));
             setDivisors(newValue / 100);
         }
     };
@@ -34,7 +37,7 @@ export default function Zoom({ setDivisors }) {
         return () => {
             window.removeEventListener("wheel", handleWheel);
         };
-    }, [valueInput]);
+    }, [sheetZoom]);
 
     return (
         <div className="fixed top-0 right-10 h-10 px-6 flex justify-center items-center bg-black/40 rounded-b">
@@ -44,11 +47,11 @@ export default function Zoom({ setDivisors }) {
                 min="20"
                 max="200"
                 step="1"
-                value={valueInput}
+                value={sheetZoom}
                 onInput={handleChange}
             />
             <label htmlFor="range" className="text-white ml-2">
-                {valueInput}%
+                {sheetZoom}%
             </label>
         </div>
     );

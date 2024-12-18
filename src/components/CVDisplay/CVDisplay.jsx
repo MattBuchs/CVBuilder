@@ -4,6 +4,7 @@ import "./CVDisplay.css";
 import { useState, useRef } from "react";
 import ToolsBar from "../ToolsBar";
 import Zoom from "../Zoom";
+import ProfilePictureDisplayed from "./ProfilePictureDisplayed";
 
 export default function CVDisplay() {
     const widthSheet = 2480 / 4;
@@ -51,7 +52,7 @@ export default function CVDisplay() {
             className="w-2/3 bg-grid overflow-auto min-h-full flex p-14 relative"
         >
             <div
-                className="bg-white shadow-2xl mx-auto select-none"
+                className="bg-white shadow-2xl mx-auto select-none overflow-hidden relative"
                 onMouseDown={handleMouseDown}
                 style={{
                     minWidth: `${widthSheet * divisors}px`,
@@ -62,7 +63,9 @@ export default function CVDisplay() {
                             : "grab"
                         : "default",
                 }}
-            ></div>
+            >
+                <ProfilePictureDisplayed />
+            </div>
             <ToolsBar isActive={isActive} setIsActive={setIsActive} />
             <Zoom setDivisors={setDivisors} />
         </section>
