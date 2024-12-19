@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     profilePicture: null,
-    radius: 100,
+    radius: 10,
     border: 2,
     widthSize: 25,
     heightSize: 18,

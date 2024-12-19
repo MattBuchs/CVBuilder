@@ -22,6 +22,7 @@ import {
     setShadowOpacity,
 } from "@/store/features/profilePicture";
 import { useEffect, useState } from "react";
+import ResetValue from "../Utils/Buttons/ResetValue";
 
 export default function ProfilePicture() {
     const dispatch = useDispatch();
@@ -71,52 +72,40 @@ export default function ProfilePicture() {
     }, [shadowColor]);
 
     return (
-        <section className="mt-8">
-            <h2 className="font-bold text-xl mb-4">
-                Ajouter une photo de profile :
-            </h2>
+        <form>
+            <fieldset className="border border-amber-400 p-4 rounded bg-black/30 mb-4 relative">
+                <legend className="bg-amber-200 text-black font-semibold px-3 py-1 rounded-md">
+                    Photo de profil
+                </legend>
 
-            <form>
-                <fieldset className="border p-4 rounded bg-slate-950 mb-4">
-                    <legend className="bg-white text-black font-semibold px-3 py-1 rounded-md">
-                        Photo de profil
-                    </legend>
+                <ResetValue
+                    resetValues={[
+                        setWidthSize(25),
+                        setHeightSize(18),
+                        setRadius(10),
+                        setInvert(false),
+                    ]}
+                />
+                <div className="mb-2">
+                    <label htmlFor="file" className="block">
+                        Choisir une photo
+                    </label>
+                    <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className=""
+                    />
+                </div>
 
-                    <div>
-                        <label htmlFor="file">Choisir une photo</label>
-                        <input
-                            type="file"
-                            id="file"
-                            name="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="border"
-                        />
-                    </div>
+                <div className="mb-1">
+                    <label htmlFor="pictureWidthSize" className="block">
+                        Largeur de l'image
+                    </label>
 
-                    <div>
-                        <label htmlFor="profilePictureRadius">
-                            Arrondissement de la photo
-                        </label>
-                        <input
-                            type="range"
-                            name="profilePictureRadius"
-                            id="profilePictureRadius"
-                            min="0"
-                            step="1"
-                            max="100"
-                            defaultValue="100"
-                            onChange={(e) => {
-                                dispatch(setRadius(e.target.value));
-                            }}
-                        />
-                        <small>{radius}%</small>
-                    </div>
-
-                    <div>
-                        <label htmlFor="pictureWidthSize">
-                            Largeur de l'image
-                        </label>
+                    <div className="flex">
                         <input
                             type="range"
                             name="pictureWidthSize"
@@ -124,18 +113,21 @@ export default function ProfilePicture() {
                             min="10"
                             max="75"
                             step="1"
-                            defaultValue="25"
+                            value={widthSize}
                             onChange={(e) => {
                                 dispatch(setWidthSize(e.target.value));
                             }}
                         />
-                        <small>{widthSize}%</small>
+                        <p className="font-semibold ml-2">{widthSize}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="pictureHeightSize">
-                            Hauteur de l'image
-                        </label>
+                <div className="mb-1">
+                    <label htmlFor="pictureHeightSize" className="block">
+                        Hauteur de l'image
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="pictureHeightSize"
@@ -143,37 +135,76 @@ export default function ProfilePicture() {
                             min="10"
                             max="75"
                             step="1"
-                            defaultValue="25"
+                            value={heightSize}
                             onChange={(e) => {
                                 dispatch(setHeightSize(e.target.value));
                             }}
                         />
-                        <small>{heightSize}%</small>
+                        <p className="font-semibold ml-2">{heightSize}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="pictureInvert">Inverser l'image</label>
+                <div className="mb-1">
+                    <label
+                        htmlFor="profilePictureRadius"
+                        className="block select-none"
+                    >
+                        Arrondissement de la photo
+                    </label>
+
+                    <div className="flex">
                         <input
-                            type="checkbox"
-                            name="pictureInvert"
-                            id="pictureInvert"
-                            defaultChecked={invert}
+                            type="range"
+                            name="profilePictureRadius"
+                            id="profilePictureRadius"
+                            min="0"
+                            step="1"
+                            max="100"
+                            value={radius}
                             onChange={(e) => {
-                                dispatch(setInvert(e.target.checked));
+                                dispatch(setRadius(e.target.value));
                             }}
                         />
+                        <p className="font-semibold ml-2">{radius}%</p>
                     </div>
-                </fieldset>
+                </div>
 
-                <fieldset className="border p-4 rounded bg-slate-950 mb-4">
-                    <legend className="bg-white text-black font-semibold px-3 py-1 rounded-md">
-                        Options de déplacement
-                    </legend>
+                <div className="mb-1">
+                    <label htmlFor="pictureInvert" className="select-none">
+                        Inverser l'image
+                    </label>
+                    <input
+                        type="checkbox"
+                        name="pictureInvert"
+                        id="pictureInvert"
+                        className="cursor-pointer ml-2 h-4 w-4"
+                        checked={invert}
+                        onChange={(e) => {
+                            dispatch(setInvert(e.target.checked));
+                        }}
+                    />
+                </div>
+            </fieldset>
 
-                    <div>
-                        <label htmlFor="MoveY">
-                            Déplacer l'image verticalement
-                        </label>
+            <fieldset className="border border-amber-400 p-4 rounded bg-black/30 mb-4 relative">
+                <legend className="bg-amber-200 text-black font-semibold px-3 py-1 rounded-md">
+                    Options de déplacement
+                </legend>
+
+                <ResetValue
+                    resetValues={[
+                        setMoveY(3),
+                        setMoveX(3),
+                        setMoveVertically(50),
+                        setMoveHorizontally(50),
+                    ]}
+                />
+                <div className="mb-1">
+                    <label htmlFor="MoveY" className="block">
+                        Déplacer l'image verticalement
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="MoveY"
@@ -181,18 +212,21 @@ export default function ProfilePicture() {
                             min="-50"
                             max="100"
                             step="1"
-                            defaultValue="3"
+                            value={moveY}
                             onChange={(e) => {
                                 dispatch(setMoveY(e.target.value));
                             }}
                         />
-                        <small>{moveY}%</small>
+                        <p className="font-semibold ml-2">{moveY}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="MoveX">
-                            Déplacer l'image horizontalement
-                        </label>
+                <div className="mb-1">
+                    <label htmlFor="MoveX" className="block">
+                        Déplacer l'image horizontalement
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="MoveX"
@@ -200,18 +234,21 @@ export default function ProfilePicture() {
                             min="-50"
                             max="100"
                             step="1"
-                            defaultValue="3"
+                            value={moveX}
                             onChange={(e) => {
                                 dispatch(setMoveX(e.target.value));
                             }}
                         />
-                        <small>{moveX}%</small>
+                        <p className="font-semibold ml-2">{moveX}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="MoveVertically">
-                            Déplacer l'image intérieur verticalement
-                        </label>
+                <div className="mb-1">
+                    <label htmlFor="MoveVertically" className="block">
+                        Déplacer l'image intérieur verticalement
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="MoveVertically"
@@ -219,18 +256,21 @@ export default function ProfilePicture() {
                             min="0"
                             max="100"
                             step="1"
-                            defaultValue="50"
+                            value={moveVertically}
                             onChange={(e) => {
                                 dispatch(setMoveVertically(e.target.value));
                             }}
                         />
-                        <small>{moveVertically}%</small>
+                        <p className="font-semibold ml-2">{moveVertically}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="MoveHorizontally">
-                            Déplacer l'image intérieur horizontalement
-                        </label>
+                <div className="mb-1">
+                    <label htmlFor="MoveHorizontally" className="block">
+                        Déplacer l'image intérieur horizontalement
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="MoveHorizontally"
@@ -238,24 +278,36 @@ export default function ProfilePicture() {
                             min="0"
                             max="100"
                             step="1"
-                            defaultValue="50"
+                            value={moveHorizontally}
                             onChange={(e) => {
                                 dispatch(setMoveHorizontally(e.target.value));
                             }}
                         />
-                        <small>{moveHorizontally}%</small>
+                        <p className="font-semibold ml-2">
+                            {moveHorizontally}%
+                        </p>
                     </div>
-                </fieldset>
+                </div>
+            </fieldset>
 
-                <fieldset className="border p-4 rounded bg-slate-950 mb-4">
-                    <legend className="bg-white text-black font-semibold px-3 py-1 rounded-md">
-                        Options de la bordure
-                    </legend>
+            <fieldset className="border border-amber-400 p-4 rounded bg-black/30 mb-4 relative">
+                <legend className="bg-amber-200 text-black font-semibold px-3 py-1 rounded-md">
+                    Options de la bordure
+                </legend>
 
-                    <div>
-                        <label htmlFor="pictureBorder">
-                            Bordure de l'image
-                        </label>
+                <ResetValue
+                    resetValues={[
+                        setBorder(2),
+                        setBorderStyle("solid"),
+                        setBorderColor("#000000"),
+                    ]}
+                />
+                <div className="mb-2">
+                    <label htmlFor="pictureBorder" className="block">
+                        Bordure de l'image
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="pictureBorder"
@@ -263,61 +315,76 @@ export default function ProfilePicture() {
                             min="0"
                             max="30"
                             step="1"
-                            defaultValue="2"
+                            value={border}
                             onChange={(e) => {
                                 dispatch(setBorder(e.target.value));
                             }}
                         />
-                        <small>{border}px</small>
+                        <p className="font-semibold ml-2">{border}px</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="pictureBorderStyle">
-                            Style de la bordure
-                        </label>
-                        <select
-                            name="pictureBorderStyle"
-                            id="pictureBorderStyle"
-                            className="text-black cursor-pointer"
-                            onChange={(e) => {
-                                dispatch(setBorderStyle(e.target.value));
-                            }}
-                        >
-                            <option value="solid">Solide</option>
-                            <option value="dashed">Tirets</option>
-                            <option value="dotted">Pointillés</option>
-                            <option value="double">Double</option>
-                            <option value="groove">Sillon</option>
-                            <option value="ridge">Crête</option>
-                            <option value="inset">Incrusté</option>
-                            <option value="outset">Saillante</option>
-                        </select>
-                    </div>
+                <div className="mb-2">
+                    <label htmlFor="pictureBorderStyle">
+                        Style de la bordure
+                    </label>
+                    <select
+                        name="pictureBorderStyle"
+                        id="pictureBorderStyle"
+                        className="text-black cursor-pointer ml-2"
+                        onChange={(e) => {
+                            dispatch(setBorderStyle(e.target.value));
+                        }}
+                    >
+                        <option value="solid">Solide</option>
+                        <option value="dashed">Tirets</option>
+                        <option value="dotted">Pointillés</option>
+                        <option value="double">Double</option>
+                        <option value="groove">Sillon</option>
+                        <option value="ridge">Crête</option>
+                        <option value="inset">Incrusté</option>
+                        <option value="outset">Saillante</option>
+                    </select>
+                </div>
 
-                    <div>
-                        <label htmlFor="pictureBorderColor">
-                            Couleur de la bordure
-                        </label>
-                        <input
-                            type="color"
-                            name="pictureBorderColor"
-                            id="pictureBorderColor"
-                            className="cursor-pointer"
-                            value={borderColor}
-                            onChange={(e) => {
-                                dispatch(setBorderColor(e.target.value));
-                            }}
-                        />
-                    </div>
-                </fieldset>
+                <div className="mb-1 flex items-center">
+                    <label htmlFor="pictureBorderColor">
+                        Couleur de la bordure
+                    </label>
+                    <input
+                        type="color"
+                        name="pictureBorderColor"
+                        id="pictureBorderColor"
+                        className="cursor-pointer ml-2"
+                        value={borderColor}
+                        onChange={(e) => {
+                            dispatch(setBorderColor(e.target.value));
+                        }}
+                    />
+                </div>
+            </fieldset>
 
-                <fieldset className="border p-4 rounded bg-slate-950">
-                    <legend className="bg-white text-black font-semibold px-3 py-1 rounded-md">
-                        Options des ombres
-                    </legend>
+            <fieldset className="border border-amber-400 p-4 rounded bg-black/30 relative">
+                <legend className="bg-amber-200 text-black font-semibold px-3 py-1 rounded-md">
+                    Options des ombres
+                </legend>
 
-                    <div>
-                        <label htmlFor="offSetY">Ombres verticales</label>
+                <ResetValue
+                    resetValues={[
+                        setShadowOffsetY(2),
+                        setShadowOffsetX(0),
+                        setShadowBlur(15),
+                        setShadowSpread(-3),
+                        setShadowOpacity(20),
+                        setShadowColor("#000000"),
+                    ]}
+                />
+                <div className="mb-1">
+                    <label htmlFor="offSetY" className="block">
+                        Ombres verticales
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="offSetY"
@@ -330,11 +397,16 @@ export default function ProfilePicture() {
                                 dispatch(setShadowOffsetY(e.target.value));
                             }}
                         />
-                        <small>{shadowOffsetY}%</small>
+                        <p className="font-semibold ml-2">{shadowOffsetY}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="offSetX">Ombres horizontales</label>
+                <div className="mb-1">
+                    <label htmlFor="offSetX" className="block">
+                        Ombres horizontales
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="offSetX"
@@ -347,11 +419,16 @@ export default function ProfilePicture() {
                                 dispatch(setShadowOffsetX(e.target.value));
                             }}
                         />
-                        <small>{shadowOffsetX}%</small>
+                        <p className="font-semibold ml-2">{shadowOffsetX}%</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="blur">Rayon de flou</label>
+                <div className="mb-1">
+                    <label htmlFor="blur" className="block">
+                        Rayon de flou
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="blur"
@@ -364,11 +441,16 @@ export default function ProfilePicture() {
                                 dispatch(setShadowBlur(e.target.value));
                             }}
                         />
-                        <small>{shadowBlur}px</small>
+                        <p className="font-semibold ml-2">{shadowBlur}px</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="spread">Rayon de propagation</label>
+                <div className="mb-1">
+                    <label htmlFor="spread" className="block">
+                        Rayon de propagation
+                    </label>
+
+                    <div className="flex">
                         <input
                             type="range"
                             name="spread"
@@ -381,24 +463,16 @@ export default function ProfilePicture() {
                                 dispatch(setShadowSpread(e.target.value));
                             }}
                         />
-                        <small>{shadowSpread}px</small>
+                        <p className="font-semibold ml-2">{shadowSpread}px</p>
                     </div>
+                </div>
 
-                    <div>
-                        <label htmlFor="shadowColor">Couleur de l'ombre</label>
-                        <input
-                            type="color"
-                            name="shadowColor"
-                            id="shadowColor"
-                            value={shadowColorState}
-                            onChange={(e) => {
-                                dispatch(setShadowColor(e.target.value));
-                            }}
-                        />
-                    </div>
+                <div className="mb-1">
+                    <label htmlFor="shadowOpacity" className="block">
+                        Opacité
+                    </label>
 
-                    <div>
-                        <label htmlFor="shadowOpacity">Opacité</label>
+                    <div className="flex">
                         <input
                             type="range"
                             name="shadowOpacity"
@@ -411,10 +485,24 @@ export default function ProfilePicture() {
                                 dispatch(setShadowOpacity(e.target.value));
                             }}
                         />
-                        <small>{shadowOpacity}%</small>
+                        <p className="font-semibold ml-2">{shadowOpacity}%</p>
                     </div>
-                </fieldset>
-            </form>
-        </section>
+                </div>
+
+                <div className="mb-1 flex items-center">
+                    <label htmlFor="shadowColor">Couleur de l'ombre</label>
+                    <input
+                        type="color"
+                        name="shadowColor"
+                        id="shadowColor"
+                        className="ml-2 cursor-pointer"
+                        value={shadowColorState}
+                        onChange={(e) => {
+                            dispatch(setShadowColor(e.target.value));
+                        }}
+                    />
+                </div>
+            </fieldset>
+        </form>
     );
 }
