@@ -20,6 +20,7 @@ import {
     setShadowSpread,
     setShadowColor,
     setShadowOpacity,
+    setZIndex,
 } from "@/store/features/profilePicture";
 import { useEffect, useState } from "react";
 import ResetValue from "../Utils/Buttons/ResetValue";
@@ -43,6 +44,7 @@ export default function ProfilePicture() {
         shadowSpread,
         shadowColor,
         shadowOpacity,
+        zIndex,
     } = useSelector((state) => state.profilePictureFeature);
     const [shadowColorState, setShadowColorState] = useState("#000000");
 
@@ -166,6 +168,64 @@ export default function ProfilePicture() {
                             }}
                         />
                         <p className="font-semibold ml-2">{radius}%</p>
+                    </div>
+                </div>
+
+                <div className="mb-1">
+                    <p>Superposition de l'image</p>
+
+                    <div className="mt-1">
+                        <button
+                            title="Premier plan"
+                            className="cursor-pointer bg-blue-800 w-16 h-10 mr-1 px-2 py-1 rounded hover:bg-blue-900 border-2 border-blue-800"
+                            style={{
+                                borderColor: zIndex === 3 ? "#fbbf24" : "",
+                            }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(setZIndex(3));
+                            }}
+                        >
+                            <img
+                                src="/img/P-Plan.png"
+                                alt=""
+                                className="w-full h-full object-contain"
+                            />
+                        </button>
+                        <button
+                            title="Deuxième plan"
+                            className="cursor-pointer bg-blue-800 w-16 h-10 mr-1 px-2 py-1 rounded hover:bg-blue-900 border-2 border-blue-800"
+                            style={{
+                                borderColor: zIndex === 2 ? "#fbbf24" : "",
+                            }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(setZIndex(2));
+                            }}
+                        >
+                            <img
+                                src="/img/D-Plan.png"
+                                alt=""
+                                className="w-full h-full object-contain"
+                            />
+                        </button>
+                        <button
+                            title="Dernier plan"
+                            className="cursor-pointer bg-blue-800 w-16 h-10 px-2 py-1 rounded hover:bg-blue-900 border-2 border-blue-800"
+                            style={{
+                                borderColor: zIndex === 1 ? "#fbbf24" : "",
+                            }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(setZIndex(1));
+                            }}
+                        >
+                            <img
+                                src="/img/T-Plan.png"
+                                alt=""
+                                className="w-full h-full object-contain"
+                            />
+                        </button>
                     </div>
                 </div>
 

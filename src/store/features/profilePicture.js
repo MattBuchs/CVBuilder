@@ -20,6 +20,7 @@ const initialState = {
     shadowSpread: -3,
     shadowColor: [0, 0, 0],
     shadowOpacity: 20,
+    zIndex: 3,
 };
 
 export const profilePictureFeature = createSlice({
@@ -85,6 +86,9 @@ export const profilePictureFeature = createSlice({
         setShadowOpacity: (state, action) => {
             state.shadowOpacity = action.payload;
         },
+        setZIndex: (state, action) => {
+            state.zIndex = action.payload;
+        },
     },
 });
 
@@ -108,5 +112,6 @@ export const {
     setShadowSpread,
     setShadowColor,
     setShadowOpacity,
+    setZIndex,
 } = profilePictureFeature.actions;
 export default profilePictureFeature.reducer;

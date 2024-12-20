@@ -24,6 +24,7 @@ export default function ProfilePictureDisplayed() {
         shadowSpread,
         shadowColor,
         shadowOpacity,
+        zIndex,
     } = useSelector((state) => state.profilePictureFeature);
 
     const [borderSize, setBorderSize] = useState(2);
@@ -57,6 +58,7 @@ export default function ProfilePictureDisplayed() {
                         position: "absolute",
                         top: `${moveY}%`,
                         left: `${moveX}%`,
+                        zIndex: zIndex * 10,
                     }}
                 >
                     <img
